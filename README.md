@@ -28,6 +28,10 @@ pnpm build && pnpm start
 
 之后到「账号管理」添加你的公众号（AppID / AppSecret，需在微信公众平台把服务器 IP 加入白名单）、「系统设置」配置 DeepSeek API Key，队列即可开始干活。
 
+## 提示词（重要）
+
+`lib/defaults.ts` 内置的提示词只是 **demo 示例**，保证开箱能跑通流程，不是任何真实账号在用的版本。正式使用请在面板「提示词」页替换成你自己的模板与固定结尾（编辑后存 `data/store.json`，以面板版本为准），写法、可用变量与一份完整示例见 **[PROMPTS.md](PROMPTS.md)**。
+
 ## 环境变量
 
 复制 `.env.example` 为 `.env` 后修改：
@@ -55,8 +59,8 @@ pnpm build && pnpm start
 
 ## scripts
 
-- `configure-new-accounts.mjs` — 批量初始化账号配置（读 `/etc/gzh-matrix/secret.env` 或环境变量取管理员密码）
-- `soften-sub-accounts.mjs` / `migrate-ending.mjs` — 历史数据迁移示例（结尾模板改造），可当 API 调用样例参考
+- `configure-new-accounts.mjs` — 批量初始化账号人设示例（管理员密码从 `ADMIN_PASSWORD` 环境变量读）
+- `migrate-ending.mjs` — 历史数据迁移示例（结尾模板改造），可当面板 API 调用样例参考
 - `diag-typeset.mjs` / `smoke-typeset.ts` — 排版引擎诊断 / 冒烟脚本
 
 ## 目录结构
@@ -64,10 +68,11 @@ pnpm build && pnpm start
 ```
 app/            # Next.js 页面与 API 路由（账号/素材/文章/生成/设置/用户）
 lib/            # 核心逻辑：writer(写文) pipeline(流水线) queue(队列) wechat(微信API)
-                #   redfox(爆文数据) illustrate(自动配图) typeset(排版) defaults(内置提示词)
+                #   redfox(爆文数据) illustrate(自动配图) typeset(排版) defaults(内置提示词demo)
 skills/         # gzh-design 公众号排版技能（AGPL，见其 LICENSE）
 assets/fonts/   # 马善政毛笔楷体（SIL OFL 1.1），水墨题图用
 scripts/        # 运维 / 迁移 / 诊断脚本
+PROMPTS.md      # 提示词编写指南 + demo 示例
 ```
 
 ## License

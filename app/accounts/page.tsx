@@ -63,7 +63,9 @@ interface Material {
 type MatType = "cover" | "content";
 const TYPE_LABEL: Record<MatType, string> = { cover: "封面", content: "文章内容" };
 
-const SERVER_IP = "103.185.249.166";
+// 本服务器出口 IP：加进公众号后台 IP 白名单用的。通过 NEXT_PUBLIC_SERVER_IP 环境变量配置，
+// 不配置则隐藏「复制服务器 IP」入口（.env 里加 NEXT_PUBLIC_SERVER_IP=x.x.x.x 即可）
+const SERVER_IP = process.env.NEXT_PUBLIC_SERVER_IP || "";
 const EMPTY: Account = {
   name: "", appid: "", appsecret: "", role: "sub",
   identity: "", direction: "", audience: "", ideas: "",
@@ -453,10 +455,12 @@ export default function Accounts() {
             <a href="https://developers.weixin.qq.com/platform/" target="_blank" rel="noreferrer" className={linkBtn}>
               <ExportOutlined style={{ fontSize: 11 }} /> 开发者平台（AppSecret / IP 白名单）
             </a>
-            <button type="button" onClick={copyIp} className={linkBtn}>
-              {ipCopied ? <CheckOutlined style={{ fontSize: 11, color: "#059669" }} /> : <CopyOutlined style={{ fontSize: 11 }} />}
-              {ipCopied ? "已复制" : `复制服务器 IP（${SERVER_IP}）`}
-            </button>
+            {SERVER_IP && (
+              <button type="button" onClick={copyIp} className={linkBtn}>
+                {ipCopied ? <CheckOutlined style={{ fontSize: 11, color: "#059669" }} /> : <CopyOutlined style={{ fontSize: 11 }} />}
+                {ipCopied ? "已复制" : `复制服务器 IP（${SERVER_IP}）`}
+              </button>
+            )}
           </div>
           <p className="text-[11px] text-black/40 leading-relaxed m-0">
             流程：登录公众平台拿 AppID → 开发者平台「基础信息 → 开发密钥」生成 AppSecret → 同页把服务器 IP 加入白名单 → 回这里填入保存。
@@ -579,12 +583,12 @@ export default function Accounts() {
         <Form form={promptForm} layout="vertical" className="space-y-0">
           <Form.Item
             name="promo"
-            label="跟随万流汇推广体系"
+            label="跟随内置推广口径"
             valuePropName="checked"
             extra={
               promoFollow === false
-                ? "独立写作模式：整份提示词由你完全自定义，系统不再附加任何万流汇口径——中性系统提示词、不追加统一结尾（只认本号自己填的固定结尾）、自动封面不带产品署名、升级文/置顶名片文不可用。"
-                : "账号纳入万流汇矩阵营销体系：系统口径、矩阵去重、统一结尾、产品升级文全套生效。关掉即为独立写作。"
+                ? "独立写作模式：整份提示词由你完全自定义，系统不再附加任何内置口径——中性系统提示词、不追加统一结尾（只认本号自己填的固定结尾）、自动封面不带产品署名、升级文/置顶名片文不可用。"
+                : "账号纳入内置营销口径：系统口径、矩阵去重、统一结尾、产品升级文全套生效。关掉即为独立写作。"
             }
             style={{ marginBottom: 14 }}
           >

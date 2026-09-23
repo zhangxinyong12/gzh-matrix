@@ -225,8 +225,8 @@ export default function Login() {
 
       {/* 底部 */}
       <footer className="relative z-10 px-8 pb-6 text-[11px] text-white/20 flex justify-between">
-        <span>103.185.249.166 : 8100</span>
-        <span>万流汇获客 · 内容矩阵基础设施</span>
+        <span>self-hosted · :8100</span>
+        <span>公众号矩阵 · 内容工作台</span>
       </footer>
     </div>
   );

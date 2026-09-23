@@ -1,4 +1,4 @@
-// 封面生成：900×383 深色底 + 红色装饰线 + 白字标题 + daydayago 署名（与主号样板一致）
+// 封面生成：900×383 深色底 + 红色装饰线 + 白字标题 + 署名（署名来自账号设置）
 import { createCanvas, GlobalFonts } from "@napi-rs/canvas";
 import fs from "fs";
 

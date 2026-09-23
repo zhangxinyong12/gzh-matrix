@@ -1,36 +1,34 @@
-// 一次性脚本：给今天（2026-09-15）新增的两个账户写入差异化身份/方向/受众。
-// 两个号此前是同一份配置（互相复制、也复制了小希），矩阵会写成同质内容；
-// 现在小希主守"全行业截流+矩阵养号"，小婷主守"线索承接与成交转化"，互补不撞车。
-// 在 siyu 上运行：node scripts/configure-new-accounts.mjs（读 /etc/gzh-matrix/secret.env 登录 admin）
-import fs from "fs";
-
+// 批量配置账号示例：给新号写入差异化身份/方向/受众，避免矩阵各号写成同质内容。
+// 账号 id/name/identity/direction/audience 全部替换成你自己的——差异化人设互补不撞车，
+// 系统提示词与固定结尾会基于这三件套生成各号自己的内容。
+// 运行：把 BASE 改成你的面板地址，密码从环境变量读：ADMIN_PASSWORD=xxx node scripts/configure-new-accounts.mjs
 const BASE = "http://127.0.0.1:8100";
-const secretEnv = fs.readFileSync("/etc/gzh-matrix/secret.env", "utf-8");
-const pwd = (secretEnv.match(/^ADMIN_PASSWORD=(.*)$/m) || [])[1]?.trim();
-if (!pwd) throw new Error("ADMIN_PASSWORD not found in /etc/gzh-matrix/secret.env");
 
 const UPDATES = [
   {
-    id: 125,
-    name: "小希讲私域-AI获客",
+    id: 1,
+    name: "示例号A",
     identity:
-      "私域获客操盘手「小希」：常年帮各行各业商家在抖音上找客户，手上管着一批矩阵号，AI 获客已经用进日常操盘",
+      "示例身份A：一句话说清这个人是谁、凭什么聊这个话题（替换成你自己的）",
     direction:
-      "各行业的抖音截流获客打法【包含矩阵】：评论区截流话术、线索私信转化、内容打法与真实案例；矩阵账号怎么养、怎么分工起量；「万流汇获客」作为在用的工具自然出现",
+      "示例方向A：这个号主要写什么，包含哪些固定栏目；与示例号B错开角度，互补不撞车（替换成你自己的）",
     audience:
-      "想做私域、想找客户的商家和个体创业者，各行各业缺客源的人",
+      "示例受众A：写给谁看，他们处在什么阶段、有什么困惑（替换成你自己的）",
   },
   {
-    id: 129,
-    name: "小婷",
+    id: 2,
+    name: "示例号B",
     identity:
-      "私域转化教练「小婷」：专管获客的下半场——客户从抖音加进来之后怎么聊、怎么跟、怎么成单，帮商家搭私信承接和转化的整套流程",
+      "示例身份B：与示例号A不同的人设角度，两号互补（替换成你自己的）",
     direction:
-      "线索承接与成交转化：私信首次回复话术、先筛后聊 SOP、跟进节奏、朋友圈与社群运营、真实转化案例；获客端用「万流汇获客」把人接进来，重点讲人进来之后怎么聊成单",
+      "示例方向B：另一条内容线，与示例号A分工明确（替换成你自己的）",
     audience:
-      "能拿到线索但转化不动的商家、个体创业者和销售咨询团队——客户加了微信就凉、不会聊不会跟的人",
+      "示例受众B：另一类目标读者（替换成你自己的）",
   },
 ];
+
+const pwd = process.env.ADMIN_PASSWORD;
+if (!pwd) throw new Error("请先设置 ADMIN_PASSWORD 环境变量");
 
 const loginRes = await fetch(`${BASE}/api/login`, {
   method: "POST",
@@ -52,6 +50,6 @@ for (const u of UPDATES) {
 }
 
 const list = await (await fetch(`${BASE}/api/accounts`, { headers: { Cookie: cookie } })).json();
-for (const a of list.filter((x) => [125, 129].includes(x.id))) {
+for (const a of list.filter((x) => UPDATES.some((u) => u.id === x.id))) {
   console.log("VERIFY", a.id, a.name, "|", a.identity.slice(0, 30), "| gen_time:", a.gen_time, "| enabled:", a.enabled);
 }

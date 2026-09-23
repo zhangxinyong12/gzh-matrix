@@ -140,7 +140,7 @@ export async function generateForAccount(
 ): Promise<GenerateResult> {
   const acc = getAccount(accountId);
   if (!acc) return { ok: false, error: "账号不存在" };
-  // 独立写作模式（promo=0）：账号自带整份提示词，系统不强加万流汇口径——
+  // 独立写作模式（promo=0）：账号自带整份提示词，系统不强加内置口径——
   // 中性系统提示词、不追加矩阵统一结尾、自动封面不带产品署名、升级文/置顶名片文不可用
   const independent = acc.promo === 0;
 
@@ -192,7 +192,7 @@ export async function generateForAccount(
   if (independent && (kind === "upgrade" || kind === "intro")) {
     return {
       ok: false,
-      error: `「${acc.name}」是独立写作模式（未跟随万流汇推广体系），不支持升级文/置顶名片文，请用热点文`,
+      error: `「${acc.name}」是独立写作模式（未跟随内置推广口径），不支持升级文/置顶名片文，请用热点文`,
     };
   }
   let commitText = userContent?.trim() || "";
@@ -231,7 +231,7 @@ export async function generateForAccount(
     // 1. 组装提示词：热点文=面板可编辑模板+联网搜热点；升级文=升级模板+git 提交记录（不联网）。
     //    账号「跟随系统」关闭时优先用本账号自定义模板（非空才生效，留空的文类仍回退系统版）。
     //    独立写作模式（promo=0）：账号的 hotspot_prompt 就是整篇提示词（非空即生效，不看 follow_system），
-    //    留空则用独立模式兜底模板（只用账号人设三件套，不带万流汇营销结构）
+    //    留空则用独立模式兜底模板（只用账号人设三件套，不带内置营销结构）
     const useCustom = acc.follow_system === 0;
     const promptTemplate =
       kind === "upgrade"
@@ -309,7 +309,7 @@ export async function generateForAccount(
         const r = await deepseekChat(
           finalPrompt + foxAppend + dupBlock + materialBlock + retryNote,
           ownerKey,
-          // 独立写作模式：系统提示词换成中性版（不带万流汇产品叙事与获客标题红线）
+          // 独立写作模式：系统提示词换成中性版（不带产品叙事与获客标题红线）
           kind === "hotspot"
             ? independent
               ? { instructions: NEUTRAL_SYSTEM_PROMPT }
@@ -395,7 +395,7 @@ export async function generateForAccount(
     }
 
     // 3. 固定结尾：账号单独设置 > 所属用户的自定义结尾（设置页）> 系统默认（通用关注+私信版）。
-    //    独立写作模式只认账号自己写的结尾——不设置就什么都不追加（系统结尾是万流汇口径，不能硬塞）
+    //    独立写作模式只认账号自己写的结尾——不设置就什么都不追加（系统结尾是内置口径，不能硬塞）
     const ending = independent
       ? acc.ending || ""
       : acc.ending ||
@@ -422,8 +422,8 @@ export async function generateForAccount(
     let png: Buffer | null = null;
     if (!acc.custom_cover_media_id && !poolCover) {
       const coverTitle = title.slice(0, 14);
-      const coverSub = independent ? acc.name : "万流汇获客 · 截流获客打法";
-      const coverSign = independent ? acc.name : "daydayago";
+      const coverSub = independent ? acc.name : "公众号矩阵 · 自动写作";
+      const coverSign = independent ? acc.name : "矩阵作者";
       try {
         png = svgToPng(coverSvg(coverTitle, coverSub, coverSign));
       } catch (e) {

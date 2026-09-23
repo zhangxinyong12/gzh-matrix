@@ -1,10 +1,11 @@
-// 一次性迁移：① admin 个人结尾 = daydayago 业务版（主副号保留原结尾）
-// ② DB 里的热点文提示词去掉硬编码结尾，改为"结尾由系统统一追加"
+// 一次性迁移示例：① admin 个人结尾 = 自定义业务版（各账号保留原结尾）
+// ② 面板里的热点文提示词去掉硬编码结尾，改为"结尾由系统统一追加"
+// 业务版结尾文案替换成你自己的示例，参考 PROMPTS.md 的「固定结尾」
 const BASE = "http://127.0.0.1:8100";
 
-const BUSINESS_ENDING = `**我是 daydayago**，软件开发，目前在做的产品是抖音截流工具「万流汇获客」。
-这个号只发这个产品的真实进展：新功能、新打法、用户拿到结果。想第一时间看到更新，**关注我，别掉队。**
-如果你有需求：想**试用软件**回「**密钥**」，想**代理 / 贴牌 / 定制**回「**代理**」，想**获客陪跑**回「**陪跑**」 —— 看到就回。`;
+const BUSINESS_ENDING = `以上就是本期的分享。觉得有收获的话，欢迎**点个关注**，更新不迷路。
+我在做的产品/服务的真实进展都会发在这个号，想第一时间看到更新，**关注我，别掉队。**
+有问题想交流的直接**私信**我，看到都会回。`;
 
 const NEW_ITEM5 = `5. 不要写任何结尾、作者签名、"关注 / 私信 / 回关键词"类引导语——正文讲完自然收束即可，结尾由系统按账号设置统一追加。`;
 
@@ -27,7 +28,7 @@ await j(await fetch(`${BASE}/api/settings`, {
   body: JSON.stringify({ ending_self: BUSINESS_ENDING }),
 }));
 const s = await j(await fetch(`${BASE}/api/settings`, { headers: H }));
-console.log("ending_self 已写入:", s.ending_self.includes("daydayago") ? "业务版 ✓" : "异常!");
+console.log("ending_self 已写入:", s.ending_self.includes("关注") ? "自定义版 ✓" : "异常!");
 console.log("ending_default(系统兜底):", s.ending_default ? `自定义(${s.ending_default.length}字)` : "空=内置通用版 ✓");
 
 // ② 提示词模板去硬编码结尾

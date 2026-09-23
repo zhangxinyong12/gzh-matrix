@@ -18,7 +18,7 @@ export interface Account {
   ideas: string;      // 主号的想法/素材（选填）
   ending: string;     // 固定结尾（留空用默认）
   follow_system: number;  // 1=跟随系统写作口径（全局提示词）；0=用本账号自定义模板（仅 promo=1 时有意义）
-  promo: number;          // 1=万流汇推广口径（默认，矩阵营销体系：系统提示词/固定结尾/品牌封面）；0=独立写作模式（自带整份提示词，系统不强加任何万流汇口径）
+  promo: number;          // 1=内置推广口径（默认，矩阵营销体系：系统提示词/固定结尾/品牌封面）；0=独立写作模式（自带整份提示词，系统不强加任何内置口径）
   hotspot_prompt: string; // 自定义热点文模板（follow_system=0 且非空时生效；promo=0 时=整篇提示词，非空即整篇生效）
   upgrade_prompt: string; // 自定义升级文模板（follow_system=0 且非空时生效；promo=0 时不可用）
   custom_cover_media_id: string; // 固定封面（永久素材 media_id，非空则每篇都用它，不再自动生成）
@@ -93,7 +93,7 @@ function load(): StoreShape {
   c.applications ??= [];
   // 素材库共享缓存字段兜底（旧数据遗留，新逻辑只读写 ref）
   for (const m of c.materials) m.refs ??= {};
-  // 素材 1-1 绑定账号（2026-09-18 改版）：旧共享库素材（account_id=0）整体划归主号 daydayago，
+  // 素材 1-1 绑定账号（2026-09-18 改版）：旧共享库素材（account_id=0）整体划归主号，
   // 本地原图同步从 materials/0/ 挪进主号目录，否则缩略图 404、转存找不到文件
   if (c.materials.some((m) => m.account_id === 0) && c.accounts.length) {
     const host =

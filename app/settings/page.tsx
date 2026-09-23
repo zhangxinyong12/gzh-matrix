@@ -146,7 +146,7 @@ export default function Settings() {
         <Form layout="vertical" className="max-w-lg">
           <Form.Item
             label={isPersonal ? "我的文章结尾" : "我的名下账号结尾"}
-            extra={isPersonal ? "作用于你名下所有账号；某个账号想用别的结尾，去账号编辑里单独填。" : "作用于你名下的账号（如 daydayago 主副号保留业务版结尾就在这里维护）。"}
+            extra={isPersonal ? "作用于你名下所有账号；某个账号想用别的结尾，去账号编辑里单独填。" : "作用于你名下的账号（某几个号想保留自己的业务版结尾，就在这里维护）。"}
             style={{ marginBottom: isPersonal ? 0 : 16 }}
           >
             <Input.TextArea
@@ -255,7 +255,7 @@ export default function Settings() {
         <InfoCircleOutlined style={{ color: "#4f46e5", marginTop: 2 }} />
         <div className="text-xs text-black/45 leading-relaxed space-y-1">
           <p className="m-0">· 热点检索默认走 DeepSeek 内置联网搜索（web_search）；配置了 Redfox Key 后可叠加微信公众号爆文数据选题。</p>
-          <p className="m-0">· 保存后记得把每个公众号后台的 IP 白名单加上本服务器出口 IP（103.185.249.166）。</p>
+          <p className="m-0">· 保存后记得把每个公众号后台的 IP 白名单加上本服务器出口 IP。</p>
           {!isPersonal && <p className="m-0">· Key 跟人走：没配 Key 的用户只有在你开放共享额度时才能生成（每人限量，可随时关闭）。</p>}
         </div>
       </div>

@@ -6,13 +6,12 @@ import { getSetting, setSetting } from "./store";
 
 const run = promisify(execFile);
 
-const GIT_DIR = process.env.GIT_REPO_DIR || "/opt/git/wanliuhui.git";
-// 只统计用户可感知的路径：3.0 客户端（抖音版）+ 小红书版 + 快手版。
-// analysis、official-site（无官网不提）、v4（4.0 独立版不对外说）等不算
+const GIT_DIR = process.env.GIT_REPO_DIR || "/opt/git/articles.git";
+// 只统计用户可感知的路径：按你自己的仓库路径用 GIT_LOG_PATHS 配置（demo 默认值无业务含义）
 const LOG_PATHS = (process.env.GIT_LOG_PATHS || "ui-v3 xhs-v1 ks-v1")
   .split(/\s+/).filter(Boolean);
 
-// 上次已写成升级文的提交（全局：产品仓库只有一个，daydayago 主号消费）
+// 上次已写成升级文的提交（全局：产品仓库只有一个，由主号消费）
 export const LAST_COMMIT_KEY = "upgrade_last_commit";
 
 export interface NewCommits {

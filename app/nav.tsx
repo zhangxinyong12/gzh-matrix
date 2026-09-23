@@ -87,7 +87,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
           </div>
           <div className="leading-tight">
             <div className="font-bold text-[15px] text-[#111827]">公众号矩阵</div>
-            <div className="text-[11px] text-black/35">万流汇 · 内容工作台</div>
+            <div className="text-[11px] text-black/35">自动写作 · 内容工作台</div>
           </div>
         </Link>
 
@@ -189,7 +189,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
         <div className="max-w-[1700px] mx-auto px-5 lg:px-8 py-7 lg:py-9">{children}</div>
         <footer className="max-w-[1700px] mx-auto px-5 lg:px-8 pb-7 text-[11px] text-black/25 flex justify-between">
           <span>GZH-MATRIX · v1.0</span>
-          <span>万流汇获客 · 内容矩阵基础设施</span>
+          <span>公众号矩阵 · 内容基础设施</span>
         </footer>
       </main>
     </div>
