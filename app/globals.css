@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+/* ===== 亮色工作台基调（shadcn-admin 式：白侧栏 + 浅灰内容区） ===== */
+.gzh-body {
+  background-color: #f6f7f9;
+  color: #111827;
+}
+
+/* 内容卡片：白底 + 细边 + 浅投影 */
+.gzh-card {
+  background: #fff;
+  border: 1px solid #eef0f3;
+  border-radius: 14px;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+}
+
+/* 页面标题（左侧靛蓝竖条） */
+.gzh-h {
+  font-size: 1.05rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0;
+}
+.gzh-h::before {
+  content: "";
+  width: 3.5px;
+  height: 16px;
+  background: linear-gradient(180deg, #4f46e5, #8b5cf6);
+  border-radius: 3px;
+}
+
+/* 主按钮光效（叠加 antd primary） */
+.gzh-btn-glow {
+  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.28);
+  transition: all 0.25s;
+}
+.gzh-btn-glow:hover {
+  box-shadow: 0 4px 16px rgba(79, 70, 229, 0.42);
+  transform: translateY(-1px);
+}
+
+/* 页面头部 */
+.gzh-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+/* ===== 登录页深空科技风专用动效（保留） ===== */
+.matrix-grid {
+  background-image:
+    linear-gradient(rgba(56, 189, 248, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.055) 1px, transparent 1px);
+  background-size: 44px 44px;
+  animation: grid-move 22s linear infinite;
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, black 30%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, black 30%, transparent 78%);
+}
+@keyframes grid-move { from { background-position: 0 0; } to { background-position: 0 44px; } }
+.glow-drift { animation: glow-drift 14s ease-in-out infinite alternate; }
+.glow-drift-2 { animation: glow-drift 18s ease-in-out infinite alternate-reverse; }
+@keyframes glow-drift {
+  from { transform: translate(0, 0) scale(1); opacity: 0.8; }
+  to { transform: translate(60px, -40px) scale(1.15); opacity: 1; }
+}
+.ring-pulse { animation: ring-pulse 4s ease-out infinite; }
+@keyframes ring-pulse { 0% { transform: scale(0.6); opacity: 0.6; } 100% { transform: scale(1.6); opacity: 0; } }
+.particle { animation: particle-float 6s ease-in-out infinite; box-shadow: 0 0 8px rgba(103, 232, 249, 0.9); }
+@keyframes particle-float {
+  0%, 100% { transform: translateY(0); opacity: 0.25; }
+  50% { transform: translateY(-26px); opacity: 0.9; }
+}
